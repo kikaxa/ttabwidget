@@ -8,13 +8,14 @@
 class TTabWidget : public QTabWidget
 { //vertical, can temporarily hide tabs. unreserves tabbar space when not visible
 public:
-    TTabWidget(QWidget *parent = 0) : QTabWidget(parent), doing_stuff(false) { }
+    TTabWidget(QWidget *parent = 0) : QTabWidget(parent), doing_stuff(false), tabBarAutoHide(true) { tabBar()->hide(); }
+    bool tabBarAutoHide;
 
     void setTabVisible(int idx, bool visible); //index, including hidden
-    int totalCount() { return count() + hidden_idx.size(); }
+    int totalCount() const { return count() + hidden_idx.size(); }
 
-    QSize minimumSizeHint() const { return QTabWidget::minimumSizeHint() - QSize(0, tabBar()->isVisible() ? 0 : tabBar()->sizeHint().height()); }
-    QSize sizeHint() const { return QTabWidget::sizeHint() - QSize(0, tabBar()->isVisible() ? 0 : tabBar()->sizeHint().height()); }
+    QSize minimumSizeHint() const { return QTabWidget::minimumSizeHint() - QSize(0, tabBar()->isVisibleTo((QWidget *)this) ? 0 : tabBar()->sizeHint().height()); }
+    QSize sizeHint() const { return QTabWidget::sizeHint() - QSize(0, tabBar()->isVisibleTo((QWidget *)this) ? 0 : tabBar()->sizeHint().height()); }
 
 protected:
     void tabInserted(int index);
@@ -26,4 +27,4 @@ protected:
     QVector<QPair<QIcon, QString> > hidden_data;
 };
 
-#endif
+#endif //TTABBAR_H
