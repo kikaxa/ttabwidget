@@ -1,5 +1,4 @@
-#ifndef TTABBAR_H
-#define TTABBAR_H
+#pragma once
 
 #include <QTabWidget>
 #include <QTabBar>
@@ -8,8 +7,9 @@
 class TTabWidget : public QTabWidget
 { //vertical, can temporarily hide tabs. unreserves tabbar space when not visible
 public:
-    TTabWidget(QWidget *parent = 0) : QTabWidget(parent), doing_stuff(false), tabBarAutoHide(true) { tabBar()->hide(); }
+    TTabWidget(QWidget *parent = 0) : QTabWidget(parent), tabBarAutoHide(true), doing_stuff(false) { tabBar()->hide(); }
 
+    bool isTabVisible(int idx) const;
     void setTabVisible(int idx, bool visible); //index, including hidden
     void setAutoHide(bool on) { tabBarAutoHide = on; if (!on) tabBar()->show(); else if (count() <= 1) tabBar()->hide(); }
     int totalCount() const { return count() + hidden_idx.size(); }
@@ -27,5 +27,3 @@ protected:
     QVector<QWidget *> hidden_wid;
     QVector<QPair<QIcon, QString> > hidden_data;
 };
-
-#endif //TTABBAR_H

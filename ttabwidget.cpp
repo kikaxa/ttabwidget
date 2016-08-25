@@ -1,5 +1,10 @@
 #include "ttabwidget.hpp"
 
+bool TTabWidget::isTabVisible(int idx) const
+{
+    return !hidden_idx.contains(idx);
+}
+
 void TTabWidget::setTabVisible(int idx, bool visible)
 {
     if (hidden_idx.contains(idx) != visible)
